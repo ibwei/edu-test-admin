@@ -1,7 +1,7 @@
 /* eslint-disabled */
-import {Component, Vue} from 'vue-property-decorator';
-import {Tag, Modal, Button, Table, Avatar, Rate, Badge} from 'ant-design-vue';
-import {tableList, FilterFormList, Opreat} from '@/interface';
+import { Component, Vue } from 'vue-property-decorator';
+import { Tag, Modal, Button, Table, Avatar, Rate, Badge } from 'ant-design-vue';
+import { tableList, FilterFormList, Opreat } from '@/interface';
 
 @Component({
   name: 'comment',
@@ -21,6 +21,10 @@ export default class Comment extends Vue {
     createtime: [],
     startTime: '',
     endTime: '',
+    student_name: '',
+    school_name: '',
+    parent_phone: '',
+    type: '',
   };
 
   BackParams: any = {
@@ -35,20 +39,32 @@ export default class Comment extends Vue {
 
   filterList: FilterFormList[] = [
     {
-      key: 'name',
+      key: 'student_name',
       label: '请输入学生姓名',
       type: 'input',
-      placeholder: '请输入姓名',
+      placeholder: '请输入学生姓名',
     },
     {
-      key: 'is_admin',
+      key: 'school_name',
+      label: '请输入学校名称',
+      type: 'input',
+      placeholder: '请输入学校名称',
+    },
+    {
+      key: 'parent_phone',
+      label: '请输入家长电话',
+      type: 'input',
+      placeholder: '请输入家长电话',
+    },
+    {
+      key: 'type',
       label: 'status',
       type: 'cascader',
       placeholder: '请选择账号类型',
       options: [
-        {value: 0, label: '学生'},
-        {value: 1, label: '管理员'},
-        {value: 2, label: '老师'},
+        { value: 0, label: '学生' },
+        { value: 1, label: '管理员' },
+        { value: 2, label: '老师' },
       ],
     },
   ];
@@ -62,7 +78,12 @@ export default class Comment extends Vue {
       align: 'center',
     },
     {
-      title: '用户名称',
+      title: '学生姓名',
+      dataIndex: 'student_name',
+      align: 'center',
+    },
+    {
+      title: '微信昵称',
       dataIndex: 'name',
       align: 'center',
     },
@@ -74,38 +95,31 @@ export default class Comment extends Vue {
       customRender: this.ImgRender,
     },
     {
-      title: '电话',
-      dataIndex: 'phone',
-      align: 'center',
-    },
-    {
-      title: 'Email',
-      align: 'center',
-      width: '300px',
-      dataIndex: 'email',
-    },
-    {
       title: '性别',
       align: 'center',
       dataIndex: 'gender',
       customRender: this.genderRender,
     },
     {
-      title: '积分',
+      title: '学校名称',
+      dataIndex: 'school_name',
       align: 'center',
-      dataIndex: 'points',
+    },
+    {
+      title: '家长电话',
+      dataIndex: 'parent_phone',
+      align: 'center',
+    },
+    {
+      title: '学生电话',
+      dataIndex: 'phone',
+      align: 'center',
     },
     {
       title: '账号类型',
       align: 'center',
-      dataIndex: 'is_admin',
+      dataIndex: 'type',
       customRender: this.typeRender,
-    },
-    {
-      title: '注册来源',
-      align: 'center',
-      dataIndex: 'device',
-      customRender: this.deviceRender,
     },
     {
       title: '账号状态',
@@ -224,16 +238,29 @@ export default class Comment extends Vue {
     return dom;
   }
 
+  async created() {
+    const { data } = await window.api.partList({ pageSize: 10, pageNum: 1 });
+    const partList = [];
+    for (let i = 0; i < data.data.length; i++) {
+      partList.push({
+        value: data.data[i].id,
+        label: data.data[i].name,
+        id: data.data[i].id,
+        name: data.data[i].name,
+      });
+    }
+    localStorage.setItem('partList', JSON.stringify(partList));
+  }
   tableClick(key: string, row: any) {
     const data = JSON.parse(JSON.stringify(row));
     this.type = row.type;
-    if (row.is_admin === 1) {
+    if (row.type === 1) {
       this.$message.info('禁止对管理员账户进行任何操作！');
       return;
     }
     switch (key) {
       case 'delete':
-        window.api.articleCommentDelete({id: data.id}).then((res: any) => {
+        window.api.articleCommentDelete({ id: data.id }).then((res: any) => {
           const resultCode = res.data.resultCode;
           if (resultCode === 0) {
             this.$message.success('删除成功');
@@ -245,7 +272,7 @@ export default class Comment extends Vue {
         break;
       case 'pass':
         window.api
-          .userUpdate({...row, id: data.id, status: row.status === 1 ? 0 : 1})
+          .userUpdate({ ...row, id: data.id, status: row.status === 1 ? 0 : 1 })
           .then((res: any) => {
             const resultCode = res.data.resultCode;
             if (resultCode === 0) {
@@ -288,7 +315,7 @@ export default class Comment extends Vue {
           tableList={this.tableList}
           filterList={this.filterList}
           filterGrade={[]}
-          scroll={{x: 900}}
+          scroll={{ x: 900 }}
           url={'/user/list'}
           filterParams={this.filterParams}
           outParams={this.outParams}

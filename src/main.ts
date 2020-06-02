@@ -18,7 +18,7 @@ const Apis = new Api({
   baseUrl:
     process.env.NODE_ENV === 'production'
       ? 'http://www.paintingapi.pinxianhs.com/api'
-      : '127.0.0.1',
+      : '/api',
 });
 // 全局api
 // 配置接口
@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
     store
       .dispatch('getUserInfo')
       .then(() => {
-        const toPath = config.noLoginList.indexOf(`#${to.path}`) > -1 ? '/dashboard' : to.path;
+        const toPath = config.noLoginList.indexOf(`#${to.path}`) > -1 ? '/user' : to.path;
         store.dispatch('AddTabPane', toPath).then(() => {
           next({
             path: toPath,

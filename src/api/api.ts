@@ -1,9 +1,9 @@
 /* eslint-disabled */
-import axios, {AxiosPromise, AxiosInstance} from 'axios';
+import axios, { AxiosPromise, AxiosInstance } from 'axios';
 import qs from 'qs';
 import jsonp from 'jsonp';
 import lodash from 'lodash';
-import {router} from '@/router/index';
+import { router } from '@/router/index';
 
 interface ApiList {
   [key: string]: {
@@ -68,221 +68,45 @@ export default class Api {
       fetchType: 'json',
       method: 'post',
     },
-    // 反馈表类
-    feedbackAdd: {
-      url: '/feedback/feedbackAdd',
+    // 板块表类
+    partAdd: {
+      url: '/part/add',
       fetchType: 'json',
       method: 'post',
     },
-    feedbackUpdate: {
-      url: '/feedback/feedbackUpdate',
+    partUpdate: {
+      url: '/part/update',
       fetchType: 'json',
       method: 'post',
     },
-    feedbackDelete: {
-      url: '/feedback/feedbackDelete',
+    partDelete: {
+      url: '/part/delete',
       fetchType: 'json',
       method: 'post',
     },
-
-    // 课程报名表
-    courseEnrollAdd: {
-      url: '/courseEnroll/courseEnrollAdd',
+    partList: {
+      url: '/part/list',
       fetchType: 'json',
       method: 'post',
     },
-    courseEnrollUpdate: {
-      url: '/courseEnroll/courseEnrollUpdate',
+    // 题目类
+    questionList: {
+      url: '/question/list',
       fetchType: 'json',
       method: 'post',
     },
-    courseEnrollDelete: {
-      url: '/courseEnroll/courseEnrollDelete',
+    questionAdd: {
+      url: '/question/add',
       fetchType: 'json',
       method: 'post',
     },
-    //课程表
-
-    //轮播表
-    bannerBaseInfoAdd: {
-      url: '/coursel/courselAdd',
+    questionUpdate: {
+      url: '/question/update',
       fetchType: 'json',
       method: 'post',
     },
-    bannerBaseInfoUpdate: {
-      url: '/coursel/courselUpdate',
-      fetchType: 'json',
-      method: 'post',
-    },
-    bannerBaseInfoDelete: {
-      url: '/coursel/courselDelete',
-      fetchType: 'json',
-      method: 'post',
-    },
-    bannerBaseInfoUpdateStatus: {
-      url: '/coursel/courselUpdateStatus',
-      fetchType: 'json',
-      method: 'post',
-    },
-
-    // 教师管理
-    teacherBaseInfoAdd: {
-      url: '/teacher/teacherAdd',
-      fetchType: 'json',
-      method: 'post',
-    },
-    teacherBaseInfoUpdate: {
-      url: '/teacher/teacherUpdate',
-      fetchType: 'json',
-      method: 'post',
-    },
-    teacherBaseInfoDelete: {
-      url: '/teacher/teacherDelete',
-      fetchType: 'json',
-      method: 'post',
-    },
-    teacherCommentList: {
-      url: '/teacher/comment/list',
-      fetchType: 'json',
-      method: 'post',
-    },
-    teacherCommentUpdate: {
-      url: '/teacher/comment/update',
-      fetchType: 'json',
-      method: 'post',
-    },
-    teacherCommentDelete: {
-      url: '/teacher/comment/delete',
-      fetchType: 'json',
-      method: 'post',
-    },
-    //表
-    articleAdd: {
-      url: '/article/articleAdd',
-      fetchType: 'json',
-      method: 'post',
-    },
-    articleUpdate: {
-      url: '/article/articleUpdate',
-      fetchType: 'json',
-      method: 'post',
-    },
-    articleDelete: {
-      url: '/article/articleDelete',
-      fetchType: 'json',
-      method: 'post',
-    },
-    articleCommentList: {
-      url: '/article/comment/list',
-      fetchType: 'json',
-      method: 'post',
-    },
-    articleCommentUpdate: {
-      url: '/article/comment/update',
-      fetchType: 'json',
-      method: 'post',
-    },
-    articleCommentDelete: {
-      url: '/article/comment/delete',
-      fetchType: 'json',
-      method: 'post',
-    },
-
-    //学生作品表
-    studentWorksList: {
-      url: '/studentWorks/studentWorksList',
-      fetchType: 'json',
-      method: 'post',
-    },
-    studentWorksAdd: {
-      url: '/studentWorks/studentWorksAdd',
-      fetchType: 'json',
-      method: 'post',
-    },
-    studentWorksUpdate: {
-      url: '/studentWorks/studentWorksUpdate',
-      fetchType: 'json',
-      method: 'post',
-    },
-    studentWorksDelete: {
-      url: '/studentWorks/studentWorksDelete',
-      fetchType: 'json',
-      method: 'post',
-    },
-
-    //画室信息表
-    paintingStudioInfo: {
-      url: '/paintingStudio/list',
-      fetchType: 'json',
-      method: 'post',
-    },
-    paintingStudioUpdate: {
-      url: '/paintingStudio/update',
-      fetchType: 'json',
-      method: 'post',
-    },
-    //3D画廊表
-    galleryPicturesUpdate: {
-      url: '/galleryPictures/update',
-      fetchType: 'json',
-      method: 'post',
-    },
-
-    // 画室环境
-    environmentAdd: {
-      url: '/environment/environmentAdd',
-      fetchType: 'json',
-      method: 'post',
-    },
-    environmentUpdate: {
-      url: '/environment/environmentUpdate',
-      fetchType: 'json',
-      method: 'post',
-    },
-    environmentDelete: {
-      url: '/environment/environmentDelete',
-      fetchType: 'json',
-      method: 'post',
-    },
-    //画室课程
-
-    courseAdd: {
-      url: '/course/add',
-      fetchType: 'json',
-      method: 'post',
-    },
-    courseUpdate: {
-      url: '/course/update',
-      fetchType: 'json',
-      method: 'post',
-    },
-    courseDelete: {
-      url: '/course/delete',
-      fetchType: 'json',
-      method: 'post',
-    },
-    scheduleList: {
-      url: '/schedule/list',
-      fetchType: 'json',
-      method: 'post',
-    },
-    scheduleUpdate: {
-      url: '/schedule/update',
-      fetchType: 'json',
-      method: 'post',
-    },
-    bookScheduleList: {
-      url: '/bookschedule/list',
-      fetchType: 'json',
-      method: 'post',
-    },
-    bookScheduleUpdate: {
-      url: '/bookschedule/update',
-      fetchType: 'json',
-      method: 'post',
-    },
-    bookScheduleDelete: {
-      url: '/bookschedule/delete',
+    questionDelete: {
+      url: '/question/delete',
       fetchType: 'json',
       method: 'post',
     },
@@ -290,7 +114,7 @@ export default class Api {
   // 对外暴露方法
   api: Apis<any> = {};
 
-  constructor(options: {baseUrl: string}) {
+  constructor(options: { baseUrl: string }) {
     // eslint-ignore-nextline
     this.service = axios.create({
       baseURL: options.baseUrl, // api的base_url
@@ -298,7 +122,7 @@ export default class Api {
     });
     for (const i in this.apiList) {
       this.api[i] = (data: any) => {
-        const {url} = this.apiList[i];
+        const { url } = this.apiList[i];
         if (i === 'gpsToAddress') {
           data = {
             callback: 'renderReverse',
@@ -323,8 +147,8 @@ export default class Api {
   request = (options: Options) =>
     this.fetch(options)
       .then((response: any) => {
-        const {statusText, status} = response;
-        let {data} = response;
+        const { statusText, status } = response;
+        let { data } = response;
         if (data instanceof Array) {
           data = {
             list: data,
@@ -332,14 +156,14 @@ export default class Api {
         }
         // 登录超时判断
         if (response.data.result && response.data.result.resultCode === 3) {
-          router.replace({name: 'login'});
+          router.replace({ name: 'login' });
           return Promise.reject({
             success: false,
             message: response.data.result.resultMessage,
           });
         }
         if (response.data.resultCode && response.data.resultCode === 401) {
-          router.replace({name: 'login'});
+          router.replace({ name: 'login' });
           return Promise.reject({
             success: false,
             message: response.data.result.resultMessage,
@@ -353,9 +177,9 @@ export default class Api {
         });
       })
       .catch((error: any) => {
-        const {response} = error;
+        const { response } = error;
         if (response.status === 401) {
-          router.replace({name: 'login'});
+          router.replace({ name: 'login' });
         }
         return Promise.reject({
           success: false,
@@ -365,7 +189,7 @@ export default class Api {
       });
 
   fetch = (options: Options) => {
-    const {url, data, fetchType, method = 'get'} = options;
+    const { url, data, fetchType, method = 'get' } = options;
     let cloneData: any = lodash.cloneDeep(data);
     cloneData = qs.stringify(cloneData);
     const headers = {
@@ -386,7 +210,7 @@ export default class Api {
             if (error) {
               reject(error);
             }
-            resolve({statusText: 'OK', status: 200, data: result});
+            resolve({ statusText: 'OK', status: 200, data: result });
           },
         );
       });
@@ -406,25 +230,25 @@ export default class Api {
       });
     }
     if (fetchType === 'jsonfile') {
-      return axios.get(url, {headers});
+      return axios.get(url, { headers });
     }
     if (fetchType === 'mock') {
-      return axios.get(url, {headers});
+      return axios.get(url, { headers });
     }
     switch (method.toLowerCase()) {
       case 'get':
-        return this.service.get(`${url}?${cloneData}`, {headers});
+        return this.service.get(`${url}?${cloneData}`, { headers });
       case 'delete':
         return this.service.delete(url, {
           data: cloneData,
           headers,
         });
       case 'post':
-        return this.service.post(url, cloneData, {headers});
+        return this.service.post(url, cloneData, { headers });
       case 'put':
-        return this.service.put(url, cloneData, {headers});
+        return this.service.put(url, cloneData, { headers });
       case 'patch':
-        return this.service.patch(url, cloneData, {headers});
+        return this.service.patch(url, cloneData, { headers });
       default:
         return this.service(options);
     }
