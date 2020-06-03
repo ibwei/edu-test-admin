@@ -1,5 +1,5 @@
-import {Component, Emit, Vue} from 'vue-property-decorator';
-import {Form, Button, Input, Icon} from 'ant-design-vue';
+import { Component, Emit, Vue } from 'vue-property-decorator';
+import { Form, Button, Input, Icon } from 'ant-design-vue';
 import config from '@/utils/config';
 
 import './login.less';
@@ -20,7 +20,7 @@ class Login extends Vue {
   loginForm: {
     username: string;
     password: string;
-  } = {username: 'admin', password: 'admin'};
+  } = { username: 'admin', password: 'admin' };
 
   config = config;
 
@@ -36,10 +36,10 @@ class Login extends Vue {
       if (!err) {
         this.loading = true;
         window.api
-          .login({...values})
+          .login({ ...values })
           .then(res => {
             this.loading = false;
-            const {resultCode, resultMessage, data} = res.data;
+            const { resultCode, resultMessage, data } = res.data;
             if (resultCode !== 0) {
               this.$message.error(resultMessage || '未知错误');
             } else {
@@ -69,7 +69,7 @@ class Login extends Vue {
   }
 
   render() {
-    const {getFieldDecorator} = this.Form;
+    const { getFieldDecorator } = this.Form;
     return (
       <div class='loginWrap'>
         <div class='loginForm'>
@@ -80,16 +80,20 @@ class Login extends Vue {
           <a-form ref='loginForm' on-submit={this.submitForm}>
             <a-form-item>
               {getFieldDecorator('username', {
-                rules: [{required: true, message: '请输入用户名字'}],
+                rules: [{ required: true, message: '请输入用户名字' }],
               })(
-                <a-input id='username' prefix-icon='iconfont-user' placeholder='请输入用户名字'>
+                <a-input
+                  id='username'
+                  prefix-icon='iconfont-user'
+                  placeholder='请输入用户名字'
+                >
                   <a-icon slot='prefix' type='user' />
                 </a-input>,
               )}
             </a-form-item>
             <a-form-item>
               {getFieldDecorator('password', {
-                rules: [{required: true, message: '请输入密码'}],
+                rules: [{ required: true, message: '请输入密码' }],
               })(
                 <a-input
                   id='password'
@@ -103,7 +107,11 @@ class Login extends Vue {
               )}
             </a-form-item>
             <a-form-item>
-              <a-button loading={this.loading} type='primary' on-click={this.submitForm}>
+              <a-button
+                loading={this.loading}
+                type='primary'
+                on-click={this.submitForm}
+              >
                 Login
               </a-button>
             </a-form-item>

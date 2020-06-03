@@ -12,8 +12,15 @@ export default class SiderBar extends Vue {
     } = this.$store.state.app;
     return (
       <div class='side-bar'>
-        <div class='logo-wrap'>
-          <img src={config.logo} alt='logo' />
+        <div
+          class='logo-wrap'
+          style='border-bottom:1px solid rgba(255,255,255,0.1)'
+        >
+          <img
+            src={require('../../../assets/logo1.png')}
+            width='100%'
+            height='100%'
+          />
         </div>
         <MenuList />
       </div>

@@ -47,6 +47,11 @@ export default class Api {
       fetchType: 'json',
       method: 'post',
     },
+    userUpdatePassword: {
+      url: '/user/updatePassword',
+      fetchType: 'json',
+      method: 'post',
+    },
     userDelete: {
       url: '/user/delete',
       fetchType: 'json',

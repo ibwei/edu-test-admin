@@ -1,6 +1,12 @@
 import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
-import { Badge, Dropdown, Breadcrumb, Popover, Icon, Menu } from 'ant-design-vue';
-import Cookies from 'js-cookie';
+import {
+  Badge,
+  Dropdown,
+  Breadcrumb,
+  Popover,
+  Icon,
+  Menu,
+} from 'ant-design-vue';
 import { menuItem, routerItem } from '@/interface';
 import { routeToArray } from '@/utils';
 import MenuList from '@/components/Layout/Sidebar/MenuList';
@@ -73,6 +79,7 @@ export default class Header extends Vue {
       case '1':
         break;
       case '2':
+        this.$router.push('/user/update');
         break;
       case '3':
         window.api.logout({}).then(res => {
@@ -110,11 +117,11 @@ export default class Header extends Vue {
               <i class='menu-btn iconfont-listMenu'></i>
             </a-popover>
           ) : (
-              <i
-                class={`menu-btn iconfont-${opened ? 'indent' : 'outdent'}`}
-                on-click={this.switchSidebar}
-              ></i>
-            )}
+            <i
+              class={`menu-btn iconfont-${opened ? 'indent' : 'outdent'}`}
+              on-click={this.switchSidebar}
+            ></i>
+          )}
           {isMobile ? null : (
             <a-breadcrumb class='header-bread' separator='/'>
               {this.breadList.map((item: breadItem) => (
@@ -138,10 +145,9 @@ export default class Header extends Vue {
             <a-dropdown>
               <span class='ant-dropdown-link'>
                 <a-icon type='user' />
-                <span class='name'>admin</span>
+                <span class='name'>{this.$store.state.user.user.username}</span>
               </span>
               <a-menu slot='overlay' on-click={this.menuClick}>
-                <a-menu-item key='1'>个人中心</a-menu-item>
                 <a-menu-item key='2'>修改密码</a-menu-item>
                 <a-menu-divider />
                 <a-menu-item key='3'>

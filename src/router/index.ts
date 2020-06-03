@@ -22,6 +22,11 @@ export const constantRouterMap: routerItem[] & RouterOptions['routes'] = [
     component: () => import('../views/user/index'),
   },
   {
+    path: '/user/update',
+    name: '更改密码',
+    component: () => import('../views/user/password'),
+  },
+  {
     path: '/part',
     name: '题库板块管理',
     component: () => import('../views/part/index'),
@@ -30,6 +35,11 @@ export const constantRouterMap: routerItem[] & RouterOptions['routes'] = [
     path: '/question',
     name: '题目管理',
     component: () => import('../views/question/index'),
+  },
+  {
+    path: '/test',
+    name: '测试管理',
+    component: () => import('../views/test/index'),
   },
   {
     path: '*',
@@ -67,6 +77,14 @@ export const asyncRouterMap: routerItem[] = [
     path: '/question',
     icon: 'question-circle',
     name: '题目管理',
+    permission: true,
+    component: () => import('../views/question/index'),
+    meta: { key: 'Question' },
+  },
+  {
+    path: '/test',
+    icon: 'file-text',
+    name: '测试管理',
     permission: true,
     component: () => import('../views/question/index'),
     meta: { key: 'Question' },
