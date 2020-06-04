@@ -42,6 +42,11 @@ export const constantRouterMap: routerItem[] & RouterOptions['routes'] = [
     component: () => import('../views/test/index'),
   },
   {
+    path: '/test/detail',
+    name: '测试管理',
+    component: () => import('../views/test/detail/index'),
+  },
+  {
     path: '*',
     name: '异常',
     // @ts-ignore
@@ -86,8 +91,8 @@ export const asyncRouterMap: routerItem[] = [
     icon: 'file-text',
     name: '测试管理',
     permission: true,
-    component: () => import('../views/question/index'),
-    meta: { key: 'Question' },
+    component: () => import('../views/test/index'),
+    meta: { key: 'Test' },
   },
   {
     path: '*',

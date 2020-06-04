@@ -232,20 +232,6 @@ export default class Question extends Vue {
     Table2.reloadTable();
   }
 
-  async created() {
-    const { data } = await window.api.partList({ pageSize: 10, pageNum: 1 });
-    this.partList = [];
-    for (let i = 0; i < data.data.length; i++) {
-      this.partList.push({
-        value: data.data[i].id,
-        label: data.data[i].name,
-        id: data.data[i].id,
-        name: data.data[i].name,
-      });
-    }
-    localStorage.setItem('partList', JSON.stringify(this.partList));
-  }
-
   render() {
     return (
       <div class='baseInfo-wrap'>

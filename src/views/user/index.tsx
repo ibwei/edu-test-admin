@@ -247,6 +247,10 @@ export default class Comment extends Vue {
         label: data.data[i].name,
         id: data.data[i].id,
         name: data.data[i].name,
+        1: data.data[i].a_answer,
+        2: data.data[i].b_answer,
+        3: data.data[i].c_answer,
+        4: data.data[i].d_answer,
       });
     }
     localStorage.setItem('partList', JSON.stringify(partList));

@@ -1,11 +1,19 @@
 import { Component, Vue } from 'vue-property-decorator';
-import { Tag, Modal, Button, Table, Badge } from 'ant-design-vue';
+import {
+  Tag,
+  Modal,
+  Button,
+  Table,
+  Badge,
+  Steps,
+  Popover,
+} from 'ant-design-vue';
 import { tableList, FilterFormList, Opreat } from '@/interface';
 import InfoModal from './infoModal';
 import './infoModal.less';
 import { ColorArray } from '@/utils/config';
 @Component({
-  name: 'question',
+  name: 'test',
   components: {
     'a-tag': Tag,
     'info-modal': InfoModal,
@@ -13,9 +21,12 @@ import { ColorArray } from '@/utils/config';
     'a-button': Button,
     'a-table': Table,
     'a-badge': Badge,
+    'a-steps': Steps,
+    'a-step': Steps.Step,
+    'a-popover': Popover,
   },
 })
-export default class Question extends Vue {
+export default class Test extends Vue {
   // @ts-ignore
   partList: any = JSON.parse(localStorage.getItem('partList'));
 
@@ -36,72 +47,124 @@ export default class Question extends Vue {
 
   filterList: FilterFormList[] = [
     {
-      key: 'title',
-      label: 'title',
+      key: 'student_name',
+      label: 'student_name',
       type: 'input',
-      placeholder: '请输入题目',
-    },
-    {
-      key: 'part_id',
-      label: 'status',
-      type: 'cascader',
-      placeholder: '请选择所属板块',
-      options: this.partList,
+      placeholder: '请输入要查找的学生姓名',
     },
   ];
 
   tableList: tableList[] = [
     {
-      title: '题号',
+      title: '测试序号',
       align: 'center',
       dataIndex: 'id',
+      width: '50px',
     },
     {
-      title: '题目内容',
-      dataIndex: 'title',
+      title: '学生姓名',
+      dataIndex: 'student_name',
       align: 'center',
-      width: '180px',
+      width: '100px',
       customRender: this.nameRender,
     },
     {
-      title: '所属板块',
-      dataIndex: 'name',
+      title: '所属学校',
+      dataIndex: 'school_name',
       align: 'center',
-      customRender: this.partNameRender,
+      width: '140px',
     },
     {
-      title: 'A答案',
-      dataIndex: 'a_answer',
-      customRender: this.answerRender.bind(null, 0),
+      title: '家长电话',
+      dataIndex: 'parent_phone',
+      width: 120,
     },
     {
-      title: 'B答案',
-      dataIndex: 'b_answer',
-      customRender: this.answerRender.bind(null, 1),
+      title: '各板块得分',
+      dataIndex: 'scoreArray',
+      customRender: this.partScore,
     },
     {
-      title: 'C答案',
-      dataIndex: 'c_answer',
-      customRender: this.answerRender.bind(null, 2),
+      title: '总得分',
+      dataIndex: 'allScore',
+      align: 'center',
+      width: 80,
+      customRender: this.scoreRender,
     },
     {
-      title: 'D答案',
-      dataIndex: 'd_answer',
-      customRender: this.answerRender.bind(null, 3),
+      title: '状态',
+      dataIndex: 'status',
+      width: 100,
+      align: 'center',
+      customRender: this.statusRender,
     },
     {
-      title: 'E答案',
-      dataIndex: 'e_answer',
-      customRender: this.answerRender.bind(null, 4),
+      title: '提交时间',
+      dataIndex: 'created_at',
+      align: 'center',
+      width: 140,
     },
   ];
 
+  partScore(scoreString: string) {
+    const scoreArray = scoreString.split('-');
+    const rawString = localStorage.getItem('partList');
+    let partList: any = [];
+    if (rawString) {
+      partList = JSON.parse(rawString);
+    } else {
+      partList = [];
+    }
+    for (let i = 0; i < partList.length; i++) {
+      partList[i].score = scoreArray[i] ? scoreArray[i] : 0;
+    }
+    const scoreDom = partList.map((item: any, index: number) => {
+      let resultIndex = Math.floor(item.score / 5);
+      if (!resultIndex) {
+        resultIndex = 1;
+      }
+      partList[index].result = partList[index][resultIndex];
+      return (
+        <a-popover key={index}>
+          <template slot='title'>
+            <div style='padding:5px;'>{`${item.label}分析结果`}</div>
+          </template>
+          <template slot='content'>
+            <div style='padding:5px;max-width:500px;'>
+              {partList[index][resultIndex]}
+            </div>
+          </template>
+          <a-button
+            type='dashed'
+            style='margin-right:5px;'
+          >{`${item.label}:${item.score}分`}</a-button>
+        </a-popover>
+      );
+    });
+    localStorage.setItem('partResult', JSON.stringify(partList));
+    return <div>{scoreDom}</div>;
+  }
+  scoreRender(score: number) {
+    if (score >= 60) {
+      return <a-tag color={'green'}>{score}</a-tag>;
+    }
+    return <a-tag color={'blue'}>{score}</a-tag>;
+  }
+
+  statusRender(status: number) {
+    if (status === 1) {
+      return <a-badge status='processing' text='已查看' />;
+    } else if (status === 2) {
+      return <a-badge status='success' text='审核完毕' />;
+    }
+    return <a-badge status='default' text='待查看' />;
+  }
   opreat: Opreat[] = [
     {
       key: 'edit',
       rowKey: 'id',
       color: 'green',
-      text: '编辑',
+      text: '查看测试详情',
       roles: true,
       popconfirm: false,
     },
@@ -119,7 +182,7 @@ export default class Question extends Vue {
 
   detailVis: boolean = false;
 
-  title: string = '新增题库题目';
+  title: string = '新增测试';
 
   visible: boolean = false;
 
@@ -148,35 +211,6 @@ export default class Question extends Vue {
     return <a-tag color={ColorArray[row.part_id]}>{partName}</a-tag>;
   }
 
-  answerRender(type: number, answer: string, row: any) {
-    let scoreColumn = '';
-    switch (type) {
-      case 0:
-        scoreColumn = 'a_score';
-        break;
-      case 1:
-        scoreColumn = 'b_score';
-        break;
-      case 2:
-        scoreColumn = 'c_score';
-        break;
-      case 3:
-        scoreColumn = 'd_score';
-        break;
-      case 4:
-        scoreColumn = 'e_score';
-        break;
-      default:
-        scoreColumn = 'a_score';
-    }
-    return (
-      <div>
-        <a-tag color={ColorArray[type]}>分值：{row[scoreColumn]}</a-tag>
-        <div class='answer-bg'>{answer}</div>
-      </div>
-    );
-  }
-
   device(device: number) {
     if (device === 0) {
       return <a-tag color={'green'}>手机</a-tag>;
@@ -189,16 +223,14 @@ export default class Question extends Vue {
   }
 
   tableClick(key: string, row: any) {
-    const data = JSON.parse(JSON.stringify(row));
     this.type = row.type;
     switch (key) {
       case 'edit':
-        this.editData = data;
-        this.visible = true;
-        this.type = 'edit';
+        localStorage.setItem('testInfo', JSON.stringify(row));
+        this.$router.push({ path: '/test/detail' });
         break;
       case 'delete':
-        window.api.questionDelete({ id: row.id }).then((res: any) => {
+        window.api.testDelete({ id: row.id }).then((res: any) => {
           const { resultCode } = res.data;
           if (resultCode === 0) {
             this.$message.success('删除成功');
@@ -231,21 +263,6 @@ export default class Question extends Vue {
     this.editData = {};
     Table2.reloadTable();
   }
-
-  async created() {
-    const { data } = await window.api.partList({ pageSize: 10, pageNum: 1 });
-    this.partList = [];
-    for (let i = 0; i < data.data.length; i++) {
-      this.partList.push({
-        value: data.data[i].id,
-        label: data.data[i].name,
-        id: data.data[i].id,
-        name: data.data[i].name,
-      });
-    }
-    localStorage.setItem('partList', JSON.stringify(this.partList));
-  }
-
   render() {
     return (
       <div class='baseInfo-wrap'>
@@ -255,10 +272,10 @@ export default class Question extends Vue {
           filterList={this.filterList}
           filterGrade={[]}
           scroll={{ x: 900 }}
-          url={'/question/list'}
+          url={'/test/list'}
           filterParams={this.filterParams}
           outParams={this.outParams}
-          addBtn={true}
+          addBtn={false}
           exportBtn={false}
           opreatWidth={'140px'}
           dataType={'json'}

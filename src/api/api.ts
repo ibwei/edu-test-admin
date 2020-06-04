@@ -115,6 +115,27 @@ export default class Api {
       fetchType: 'json',
       method: 'post',
     },
+    // 题目类
+    testList: {
+      url: '/test/list',
+      fetchType: 'json',
+      method: 'post',
+    },
+    testAdd: {
+      url: '/test/add',
+      fetchType: 'json',
+      method: 'post',
+    },
+    testUpdate: {
+      url: '/test/update',
+      fetchType: 'json',
+      method: 'post',
+    },
+    testDelete: {
+      url: '/test/delete',
+      fetchType: 'json',
+      method: 'post',
+    },
   };
   // 对外暴露方法
   api: Apis<any> = {};
