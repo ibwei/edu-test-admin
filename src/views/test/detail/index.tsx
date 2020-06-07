@@ -8,10 +8,14 @@ import {
   Steps,
   Popover,
   Avatar,
+  Icon,
   Radio,
+  Affix,
 } from 'ant-design-vue';
 import Chart from 'chart.js';
 import './index.less';
+// @ts-ignore
+import Spin from '@/components/Spin';
 
 @Component({
   name: 'test',
@@ -26,20 +30,30 @@ import './index.less';
     'a-radio-group': Radio.Group,
     'a-step': Steps.Step,
     'a-popover': Popover,
+    'a-affix': Affix,
     'a-avatar': Avatar,
+    'a-icon': Icon,
+    Spin,
   },
 })
 export default class Test extends Vue {
   testInfo: any;
   partResult: any;
-
   PieChartDom: any;
-
+  spinning: Boolean = true;
+  questionList: Array<any> = [];
+  answerArray: Array<number> = [];
+  testList: Array<any> = [];
   created() {
+    this.spinning = true;
     this.initData();
+    this.getTestList();
     this.$nextTick(() => {
       this.LineChart();
     });
+    if (this.testInfo.status === 0) {
+      this.updateStatus(1);
+    }
   }
 
   initData() {
@@ -51,7 +65,30 @@ export default class Test extends Vue {
     if (partResult) {
       this.partResult = JSON.parse(partResult);
     }
-    console.log(this.testInfo);
+  }
+
+  async getTestList() {
+    await window.api
+      .testDetail({ id: this.$route.query.id })
+      .then((res: any) => {
+        const { data, resultCode, resultMessage, answerArray } = res.data;
+        this.answerArray = answerArray.split('-');
+        if (resultCode === 0) {
+          this.$message.success('获取试题详情成功');
+          this.handleData(data);
+        } else {
+          this.$message.error(resultMessage);
+        }
+      });
+    this.spinning = false;
+  }
+
+  handleData(list: any): void {
+    this.questionList = [];
+    for (const [key, question] of list.entries()) {
+      const temp = { ...question, answer: this.answerArray[key] };
+      this.questionList.push(temp);
+    }
   }
 
   LineChart() {
@@ -124,16 +161,123 @@ export default class Test extends Vue {
     this.PieChartDom = new Chart(PieChart.getContext('2d'), config);
   }
 
+  getPartAnalysis(key: number) {
+    const score = this.partResult[Math.floor(key / 10)].score;
+    const th = Math.floor(key / 10);
+    if (score < 11) {
+      return this.partResult[th]['1'];
+    } else if (score < 16) {
+      return this.partResult[th]['2'];
+    } else if (score < 21) {
+      return this.partResult[th]['3'];
+    } else {
+      return this.partResult[th]['4'];
+    }
+  }
+
+  backToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  updateStatus(status: number) {
+    window.api
+      .testHandled({ id: this.$route.query.id, status })
+      .then((res: any) => {
+        const { resultCode, resultMessage } = res.data;
+        if (resultCode === 0 && status === 2) {
+          this.$message.success('处理成功');
+        } else {
+          this.$message.error(resultMessage);
+        }
+      });
+  }
+
   render() {
+    const testList = this.questionList.map((item, key) => (
+      <div class='part-list'>
+        {key % 10 === 0 ? (
+          <div class='part-name' index={key}>
+            <a-icon type='check-square' style='margin-right:10px;' />
+            板块名称:{this.partResult[Math.floor(key)].name}
+          </div>
+        ) : null}
+        <div class='question-list'>
+          <div class='question'>
+            <div class='q-title'>{`${key + 1}.${item.title}`}</div>
+            <div class='q-content'>
+              <a-radio-group value={item.answer}>
+                <a-radio
+                  class={item.answer === 0 ? 'radio-style' : ''}
+                  value='0'
+                >
+                  A: {item.a_answer}
+                  {` (${item.a_score}分)`}
+                </a-radio>
+                <a-radio
+                  class={item.answer === 1 ? 'radio-style' : ''}
+                  value='1'
+                >
+                  B: {item.b_answer}
+                  {` (${item.b_score}分)`}
+                </a-radio>
+                <a-radio
+                  class={item.answer === 2 ? 'radio-style' : ''}
+                  value='2'
+                >
+                  C: {item.c_answer}
+                  {` (${item.c_score}分)`}
+                </a-radio>
+                <a-radio
+                  class={item.answer === 3 ? 'radio-style' : ''}
+                  value='3'
+                >
+                  D: {item.d_answer}
+                  {` (${item.d_score}分)`}
+                </a-radio>
+                <a-radio
+                  class={item.answer === 4 ? 'radio-style' : ''}
+                  value='4'
+                >
+                  E: {item.d_answer}
+                  {` (${item.e_score}分)`}
+                </a-radio>
+              </a-radio-group>
+            </div>
+          </div>
+        </div>
+        {key % 10 === 3 ? (
+          <div class='part-summary'>
+            <div class='part-score'>
+              该板块得分:{this.partResult[Math.floor(key / 10)].score}分
+            </div>
+            <div class='part-analysis'>
+              <div>该板块结果分析:{this.getPartAnalysis(key)}分</div>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    ));
+
     return (
       <div class='test-detail'>
+        <a-affix style='position:absolute;top:400px;right:30px;'>
+          <div class='button-group'>
+            <a-button onClick={this.backToTop}>回到顶部</a-button>
+            <a-button
+              style='margin-top:10px;'
+              onClick={this.updateStatus.bind(null, 2)}
+            >
+              标记已审阅
+            </a-button>
+          </div>
+        </a-affix>
         <div class='content'>
           <div class='banner'></div>
           <div class='summary'>
             {this.testInfo.avatar ? (
-              <a-avatar size={'large'} src={this.testInfo.avatar} />
+              <a-avatar size='large' src={this.testInfo.avatar} />
             ) : (
-              <a-avatar size={'large'}>U</a-avatar>
+              <a-avatar size='large' icon='user' />
             )}
             <h2 style='margin-top:20px;'>
               {this.testInfo.student_name}的答题详情与测试结果分析
@@ -151,30 +295,8 @@ export default class Test extends Vue {
             </div>
           </div>
           <div class='test-list'>
-            <div class='part'>
-              <div class='part-name'>板块名称</div>
-              <div class='question-list'>
-                <div class='question'>
-                  <div class='q-title'>1.你为什么每次都迟到?</div>
-                  <div class='q-content'>
-                    <a-radio-group value='2'>
-                      <a-radio style='radioStyle' value='1'>
-                        Option A
-                      </a-radio>
-                      <a-radio style='radioStyle' value='2'>
-                        Option B
-                      </a-radio>
-                      <a-radio style='radioStyle' value='3'>
-                        Option C
-                      </a-radio>
-                      <a-radio style='radioStyle' value='4'>
-                        Option D
-                      </a-radio>
-                    </a-radio-group>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <spin show={this.spinning} text='正在加载试题详情' />
+            <div class='part'>{testList}</div>
           </div>
         </div>
       </div>

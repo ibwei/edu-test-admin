@@ -115,7 +115,7 @@ export default class Api {
       fetchType: 'json',
       method: 'post',
     },
-    // 题目类
+    // 测试类
     testList: {
       url: '/test/list',
       fetchType: 'json',
@@ -133,6 +133,16 @@ export default class Api {
     },
     testDelete: {
       url: '/test/delete',
+      fetchType: 'json',
+      method: 'post',
+    },
+    testDetail: {
+      url: '/test/detail',
+      fetchType: 'json',
+      method: 'post',
+    },
+    testHandled: {
+      url: '/test/handled',
       fetchType: 'json',
       method: 'post',
     },

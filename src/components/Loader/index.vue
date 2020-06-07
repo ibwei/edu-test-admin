@@ -1,21 +1,27 @@
 <template>
-  <div :class="{'hidden': spinning, 'fullScreen': fullScreen}" class="loader">
+  <div :class="{ hidden: spinning, fullScreen: fullScreen }" class="loader">
     <div class="warpper">
-      <div class="inner"/>
-      <div class="txt">LOADING...</div>
+      <div class="inner" />
+      <div class="txt">{{ text ? text : 'LOADING...' }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Vue, Inject, Provide,
+  Component,
+  Prop,
+  Emit,
+  Vue,
+  Inject,
+  Provide,
 } from 'vue-property-decorator';
 
 @Component
-
 export default class Loader extends Vue {
   @Prop() private spinning!: boolean;
+
+  @Prop() private text?: string;
 
   @Prop() private fullScreen!: boolean;
 }

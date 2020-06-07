@@ -87,7 +87,6 @@ router.beforeEach((to, from, next) => {
         });
       })
       .catch((err: any) => {
-        console.log(err);
         if (config.noLoginList.indexOf(to.path) < 0) {
           next({ name: 'login', replace: true });
         }

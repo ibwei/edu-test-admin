@@ -95,7 +95,6 @@ class InfoModal extends Vue {
               status: 1,
             })
             .then((res: any) => {
-              console.log('res :', res);
               const { resultCode, resultMessage } = res.data;
               if (!resultCode) {
                 this.$message.success(resultMessage);

@@ -199,7 +199,6 @@ export default class Test extends Vue {
     this.detailVis = true;
   }
   partChange(e: any) {
-    console.log(e);
     const Table2: any = this.$refs.baseInfoTable;
   }
 
@@ -227,7 +226,7 @@ export default class Test extends Vue {
     switch (key) {
       case 'edit':
         localStorage.setItem('testInfo', JSON.stringify(row));
-        this.$router.push({ path: '/test/detail' });
+        this.$router.push({ path: '/test/detail', query: { id: row.id } });
         break;
       case 'delete':
         window.api.testDelete({ id: row.id }).then((res: any) => {

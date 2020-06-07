@@ -1,8 +1,16 @@
-import { Component, Prop, Emit, Vue, Inject, Provide } from 'vue-property-decorator';
+import {
+  Component,
+  Prop,
+  Emit,
+  Vue,
+  Inject,
+  Provide,
+} from 'vue-property-decorator';
 import { LocaleProvider } from 'ant-design-vue';
 import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import AppMain from '@/components/Layout/AppMain';
+// @ts-ignore
 import Loader from '@/components/Loader/index.vue';
 
 import './App.less';
@@ -36,7 +44,7 @@ export default class App extends Vue {
   render() {
     const self = this;
     return (
-      <div id="app">
+      <div id='app'>
         <loader spinning={self.$store.getters.spinning} fullScreen></loader>
         <a-locale-provider locale={zh_CN}>
           <AppMain />

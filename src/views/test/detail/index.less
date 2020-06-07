@@ -14,12 +14,13 @@
       height         : 100px;
       background     : url('../../../assets/top-bg.jpg') center 22px no-repeat;
       background-size: 100% auto;
+
     }
 
     .summary {
-      padding-top    : 30px;
+      padding-top    : 40px;
       background     : #fff;
-      height         : 500px;
+      height         : 600px;
       display        : flex;
       flex-flow      : column nowrap;
       justify-content: flex-start;
@@ -34,12 +35,17 @@
     .test-list {
       background: #fff;
       height    : auto;
-      border-top: 1px dashed;
       padding   : 40px 50px;
+      position  : relative;
+
+      .part-list {}
 
       .part-name {
-        font-size: 20px;
-        margin   : 10px 0px;
+        border-top : 1px dashed #999;
+        font-size  : 16px;
+        font-weight: 400;
+        margin     : 10px 0px;
+        padding-top: 20px;
       }
 
       .question {
@@ -49,7 +55,21 @@
       .q-content {
         margin: 10px 0px;
       }
-    }
 
+      .part-summary {
+        border   : 1px dashed #999;
+        padding  : 20px;
+        font-size: 14px;
+      }
+    }
   }
+
+  .button-group {
+    display  : flex;
+    flex-flow: column nowrap;
+  }
+}
+
+.radio-style {
+  color: green !important;
 }
