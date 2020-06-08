@@ -311,6 +311,35 @@ export default class Comment extends Vue {
     Table2.reloadTable();
   }
 
+  index: number = 866;
+  preIndex = 866;
+  async mock() {
+    for (; this.index < 1000; this.index++) {
+      const item: any = {};
+      item.title = `第${this.index}题的题目`;
+      item.part_id = Math.floor(Math.random() * 10 + 1);
+      item.a_answer = `${this.index}题答案A`;
+      item.a_score = 1;
+      item.b_answer = `${this.index}题答案B`;
+      item.b_score = 2;
+      item.c_answer = `${this.index}题答案C`;
+      item.c_score = 3;
+      item.d_answer = `${this.index}题答案D`;
+      item.d_score = 4;
+      item.e_answer = `${this.index}题答案E`;
+      item.e_score = 5;
+      item.status = 1;
+      /* eslint-disable */
+      await window.api.questionAdd({ ...item });
+      if (this.index - this.preIndex > 25) {
+        await new Promise((resolve, reject) => {
+          setTimeout(resolve, 5000, 'done');
+        });
+        this.preIndex = this.index;
+      }
+    }
+  }
+
   render() {
     return (
       <div class='baseInfo-wrap'>
