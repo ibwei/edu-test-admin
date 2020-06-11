@@ -200,6 +200,7 @@ export default class Comment extends Vue {
   }
 
   statusRender(gender: number) {
+    console.log(typeof gender);
     if (gender === 1) {
       return <a-badge status='success' text='正常' />;
     }
@@ -375,8 +376,8 @@ export default class Comment extends Vue {
             visible={this.visible}
           ></info-modal>
         ) : (
-          ''
-        )}
+            ''
+          )}
       </div>
     );
   }

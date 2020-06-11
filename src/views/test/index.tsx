@@ -119,9 +119,15 @@ export default class Test extends Vue {
       partList[i].score = scoreArray[i] ? scoreArray[i] : 0;
     }
     const scoreDom = partList.map((item: any, index: number) => {
-      let resultIndex = Math.floor(item.score / 5);
-      if (!resultIndex) {
+      let resultIndex = 1
+      if (item.score < 11) {
         resultIndex = 1;
+      } else if (item.score < 16) {
+        resultIndex = 2
+      } else if (item.score < 21) {
+        resultIndex = 2
+      } else {
+        resultIndex = 4
       }
       partList[index].result = partList[index][resultIndex];
       return (
@@ -296,8 +302,8 @@ export default class Test extends Vue {
             visible={this.visible}
           ></info-modal>
         ) : (
-          ''
-        )}
+            ''
+          )}
       </div>
     );
   }

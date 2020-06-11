@@ -17,7 +17,7 @@ import './styles/global.less';
 const Apis = new Api({
   baseUrl:
     process.env.NODE_ENV === 'production'
-      ? 'http://www.paintingapi.pinxianhs.com/api'
+      ? 'http://edu.ibwei.com/api'
       : '/api',
 });
 // 全局api
