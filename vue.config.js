@@ -1,6 +1,7 @@
-const Mock = require('./src/mock/index');
+const IS_DEV = process.env.NODE_ENV === 'development';
 
 module.exports = {
+  publicPath: IS_DEV ? './' : 'http://img.pinxianhs.com',
   chainWebpack: config => {
     config.module
       .rule('tsx')

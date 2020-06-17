@@ -162,8 +162,8 @@ export default class Test extends Vue {
   }
 
   getPartAnalysis(key: number) {
-    const score = this.partResult[Math.floor(key / 10)].score;
-    const th = Math.floor(key / 10);
+    const score = this.partResult[Math.floor(key / 5)].score;
+    const th = Math.floor(key / 5);
     if (score < 11) {
       return this.partResult[th]['1'];
     } else if (score < 16) {
@@ -193,70 +193,73 @@ export default class Test extends Vue {
   }
 
   render() {
-    const testList = this.questionList.map((item, key) => (
-      <div class='part-list'>
-        {key % 10 === 0 ? (
-          <div class='part-name' index={key}>
-            <a-icon type='check-square' style='margin-right:10px;' />
-            板块名称:{this.partResult[Math.floor(key)].name}
-          </div>
-        ) : null}
-        <div class='question-list'>
-          <div class='question'>
-            <div class='q-title'>{`${key + 1}.${item.title}`}</div>
-            <div class='q-content'>
-              <a-radio-group value={item.answer}>
-                <a-radio
-                  class={item.answer === 0 ? 'radio-style' : ''}
-                  value='0'
-                >
-                  A: {item.a_answer}
-                  {` (${item.a_score}分)`}
-                </a-radio>
-                <a-radio
-                  class={item.answer === 1 ? 'radio-style' : ''}
-                  value='1'
-                >
-                  B: {item.b_answer}
-                  {` (${item.b_score}分)`}
-                </a-radio>
-                <a-radio
-                  class={item.answer === 2 ? 'radio-style' : ''}
-                  value='2'
-                >
-                  C: {item.c_answer}
-                  {` (${item.c_score}分)`}
-                </a-radio>
-                <a-radio
-                  class={item.answer === 3 ? 'radio-style' : ''}
-                  value='3'
-                >
-                  D: {item.d_answer}
-                  {` (${item.d_score}分)`}
-                </a-radio>
-                <a-radio
-                  class={item.answer === 4 ? 'radio-style' : ''}
-                  value='4'
-                >
-                  E: {item.d_answer}
-                  {` (${item.e_score}分)`}
-                </a-radio>
-              </a-radio-group>
+    const testList = this.questionList.map((item, key) => {
+      const decade = Math.floor(key / 5);
+      return (
+        <div class='part-list'>
+          {key % 5 === 0 ? (
+            <div class='part-name' index={key}>
+              <a-icon type='check-square' style='margin-right:10px;' />
+              板块名称:{this.partResult[Math.floor(decade)].name}
+            </div>
+          ) : null}
+          <div class='question-list'>
+            <div class='question'>
+              <div class='q-title'>{`${key + 1}.${item.title}`}</div>
+              <div class='q-content'>
+                <a-radio-group value={item.answer}>
+                  <a-radio
+                    class={item.answer === 0 ? 'radio-style' : ''}
+                    value='0'
+                  >
+                    A: {item.a_answer}
+                    {` (${item.a_score}分)`}
+                  </a-radio>
+                  <a-radio
+                    class={item.answer === 1 ? 'radio-style' : ''}
+                    value='1'
+                  >
+                    B: {item.b_answer}
+                    {` (${item.b_score}分)`}
+                  </a-radio>
+                  <a-radio
+                    class={item.answer === 2 ? 'radio-style' : ''}
+                    value='2'
+                  >
+                    C: {item.c_answer}
+                    {` (${item.c_score}分)`}
+                  </a-radio>
+                  <a-radio
+                    class={item.answer === 3 ? 'radio-style' : ''}
+                    value='3'
+                  >
+                    D: {item.d_answer}
+                    {` (${item.d_score}分)`}
+                  </a-radio>
+                  <a-radio
+                    class={item.answer === 4 ? 'radio-style' : ''}
+                    value='4'
+                  >
+                    E: {item.d_answer}
+                    {` (${item.e_score}分)`}
+                  </a-radio>
+                </a-radio-group>
+              </div>
             </div>
           </div>
+          {(key + 1) % 5 === 0 && key !== 0 ? (
+            <div class='part-summary'>
+              <div class='part-score'>
+                该板块得分:{this.partResult[Math.floor(key / 5)].score}分
+              </div>
+              <div class='part-analysis'>
+                <div>该板块结果分析:{this.getPartAnalysis(key)}</div>
+              </div>
+            </div>
+          ) : null}
         </div>
-        {key % 10 === 3 ? (
-          <div class='part-summary'>
-            <div class='part-score'>
-              该板块得分:{this.partResult[Math.floor(key / 10)].score}分
-            </div>
-            <div class='part-analysis'>
-              <div>该板块结果分析:{this.getPartAnalysis(key)}分</div>
-            </div>
-          </div>
-        ) : null}
-      </div>
-    ));
+      );
+    });
 
     return (
       <div class='test-detail'>

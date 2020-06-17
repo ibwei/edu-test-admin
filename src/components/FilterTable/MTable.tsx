@@ -1,6 +1,6 @@
-import {Component, Prop, Emit, Vue, Inject, Provide} from 'vue-property-decorator';
-import {Popconfirm, Table, Dropdown, Menu, Button, Icon} from 'ant-design-vue';
-import {tableList, Opreat, Directives} from '@/interface';
+import { Component, Prop, Emit, Vue, Inject, Provide } from 'vue-property-decorator';
+import { Popconfirm, Table, Dropdown, Menu, Button, Icon } from 'ant-design-vue';
+import { tableList, Opreat, Directives } from '@/interface';
 import Spin from '@/components/Spin';
 import './MTable.less';
 
@@ -43,20 +43,20 @@ export default class MTable extends Vue {
   };
 
   // 外部参数
-  @Prop({default: {}})
+  @Prop({ default: {} })
   private outParams!: any;
 
   // 行ID
-  @Prop({default: 'id'}) private rowKey!: string;
+  @Prop({ default: 'id' }) private rowKey!: string;
 
   // 操作栏数据
-  @Prop({default: () => []}) private opreat!: Opreat[];
+  @Prop({ default: () => [] }) private opreat!: Opreat[];
 
   // 操作栏width
-  @Prop({default: '100px'}) private opreatWidth!: string;
+  @Prop({ default: '100px' }) private opreatWidth!: string;
 
   // 本地存储名称
-  @Prop({default: 'filter-table'}) private localName!: string;
+  @Prop({ default: 'filter-table' }) private localName!: string;
 
   // 请求报错回调
   @Prop() private fetchError!: Function;
@@ -65,16 +65,16 @@ export default class MTable extends Vue {
   @Prop() private tableParams!: any;
 
   // 请求类型
-  @Prop({default: 'post'}) private fetchType!: string;
+  @Prop({ default: 'post' }) private fetchType!: string;
 
   // 表格分页大小参数
-  @Prop({default: () => ['5', '10', '15', '20', '50', '100']}) private pageSizeList!: number[];
+  @Prop({ default: () => ['5', '10', '15', '20', '50', '100'] }) private pageSizeList!: number[];
 
-  @Prop({default: 10}) private defaultPageSize!: number;
+  @Prop({ default: 10 }) private defaultPageSize!: number;
 
   @Prop() private highlightCurrentRow!: boolean;
 
-  @Prop({default: null}) private scroll!: {x: number; y: number};
+  @Prop({ default: null }) private scroll!: { x: number; y: number };
 
   // data
   tableData: any = [];
@@ -84,10 +84,10 @@ export default class MTable extends Vue {
     pageNum: number;
     page: boolean;
   } = {
-    pageSize: this.defaultPageSize,
-    pageNum: 1,
-    page: true,
-  };
+      pageSize: this.defaultPageSize,
+      pageNum: 1,
+      page: true,
+    };
 
   loading: boolean = false;
 
@@ -249,7 +249,7 @@ export default class MTable extends Vue {
                   key={indexs}
                   class={`link-${
                     typeof item.color === 'function' ? item.color(record) : item.color
-                  }`}
+                    }`}
                 >
                   {typeof item.text === 'function' ? item.text(record) : item.text}
                 </a>
@@ -277,7 +277,7 @@ export default class MTable extends Vue {
                   key={indexs}
                   class={`link-${
                     typeof item.color === 'function' ? item.color(record) : item.color
-                  }`}
+                    }`}
                 >
                   {typeof item.text === 'function' ? item.text(record) : item.text}
                 </a>
