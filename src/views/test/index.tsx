@@ -32,7 +32,7 @@ export default class Test extends Vue {
 
   filterParams: any = {
     title: '',
-    part_id: [],
+    date: '',
   };
 
   BackParams: any = {
@@ -52,6 +52,12 @@ export default class Test extends Vue {
       type: 'input',
       placeholder: '请输入要查找的学生姓名',
     },
+    {
+      key: 'date',
+      label: '提交日期',
+      type: 'date',
+      placeholder: '请查找提交的日期',
+    },
   ];
 
   tableList: tableList[] = [
@@ -59,7 +65,7 @@ export default class Test extends Vue {
       title: '测试序号',
       align: 'center',
       dataIndex: 'id',
-      width: '50px',
+      width: '120px',
     },
     {
       title: '学生姓名',
@@ -119,15 +125,15 @@ export default class Test extends Vue {
       partList[i].score = scoreArray[i] ? scoreArray[i] : 0;
     }
     const scoreDom = partList.map((item: any, index: number) => {
-      let resultIndex = 1
+      let resultIndex = 1;
       if (item.score < 11) {
         resultIndex = 1;
       } else if (item.score < 16) {
-        resultIndex = 2
+        resultIndex = 2;
       } else if (item.score < 21) {
-        resultIndex = 2
+        resultIndex = 2;
       } else {
-        resultIndex = 4
+        resultIndex = 4;
       }
       partList[index].result = partList[index][resultIndex];
       return (
@@ -302,8 +308,8 @@ export default class Test extends Vue {
             visible={this.visible}
           ></info-modal>
         ) : (
-            ''
-          )}
+          ''
+        )}
       </div>
     );
   }

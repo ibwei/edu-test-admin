@@ -17,8 +17,8 @@ import './styles/global.less';
 const Apis = new Api({
   baseUrl:
     process.env.NODE_ENV === 'production'
-      ? 'http://edu.pinxianhs.com/api'
-      : 'http://edu.pinxianhs.com/api',
+      ? 'https://xueshangcs.com/api'
+      : 'https://xueshangcs.com/api',
 });
 // 全局api
 // 配置接口

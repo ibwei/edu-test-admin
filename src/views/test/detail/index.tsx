@@ -51,6 +51,7 @@ export default class Test extends Vue {
     this.$nextTick(() => {
       this.LineChart();
     });
+    console.log(this.testInfo);
     if (this.testInfo.status === 0) {
       this.updateStatus(1);
     }
@@ -184,9 +185,7 @@ export default class Test extends Vue {
       .testHandled({ id: this.$route.query.id, status })
       .then((res: any) => {
         const { resultCode, resultMessage } = res.data;
-        if (resultCode === 0 && status === 2) {
-          this.$message.success('处理成功');
-        } else {
+        if (resultCode !== 0) {
           this.$message.error(resultMessage);
         }
       });

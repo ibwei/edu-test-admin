@@ -71,7 +71,7 @@ class InfoModal extends Vue {
               }
             });
         } else {
-          window.api.partAdd({ ...values }).then((res: any) => {
+          window.api.partAdd({ ...values, order: 0 }).then((res: any) => {
             const { resultCode, resultMessage } = res.data;
             if (!resultCode) {
               this.$message.success(resultMessage);
@@ -105,18 +105,6 @@ class InfoModal extends Vue {
               rules: [{ required: true, message: '请输入板块名字' }],
               initialValue: this.data.name,
             })(<a-input placeholder='请输入板块名字'></a-input>)}
-          </a-form-item>
-          <a-form-item {...{ props: this.formItemLayout }} label='板块排序'>
-            {getFieldDecorator('order', {
-              rules: [{ required: true, message: '请输入板块评分' }],
-              initialValue: this.data.order,
-            })(
-              <a-input-number
-                max={this.max}
-                min={this.min}
-                placeholder='请输入板块评分'
-              ></a-input-number>,
-            )}
           </a-form-item>
           <a-form-item
             {...{ props: this.formItemLayout }}

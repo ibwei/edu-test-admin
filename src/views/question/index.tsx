@@ -55,6 +55,7 @@ export default class Question extends Vue {
       title: '题号',
       align: 'center',
       dataIndex: 'id',
+      width: '120px',
     },
     {
       title: '题目内容',

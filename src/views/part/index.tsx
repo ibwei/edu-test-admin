@@ -1,7 +1,7 @@
-import {Component, Vue} from 'vue-property-decorator';
-import {Tag, Modal, Button, Table} from 'ant-design-vue';
+import { Component, Vue } from 'vue-property-decorator';
+import { Tag, Modal, Button, Table } from 'ant-design-vue';
 import moment from 'moment';
-import {tableList, FilterFormList, Opreat} from '@/interface';
+import { tableList, FilterFormList, Opreat } from '@/interface';
 import InfoModal from './infoModal';
 
 @Component({
@@ -47,18 +47,13 @@ export default class Part extends Vue {
       title: '序号',
       align: 'center',
       dataIndex: 'id',
+      width: '100px',
     },
     {
       title: '板块名称',
       dataIndex: 'name',
       align: 'center',
       customRender: this.nameRender,
-    },
-    {
-      title: '排序[越小越靠前]',
-      dataIndex: 'order',
-      align: 'center',
-      width: '80px',
     },
     {
       title: '5-10分区间分析结果',
@@ -91,14 +86,6 @@ export default class Part extends Vue {
       text: '编辑',
       roles: true,
       popconfirm: false,
-    },
-    {
-      key: 'delete',
-      rowKey: 'id',
-      color: 'red',
-      text: '删除',
-      roles: true,
-      msg: '确定删除？',
     },
   ];
 
@@ -156,8 +143,8 @@ export default class Part extends Vue {
         this.type = 'edit';
         break;
       case 'delete':
-        window.api.partDelete({id: row.id}).then((res: any) => {
-          const {resultCode} = res.data;
+        window.api.partDelete({ id: row.id }).then((res: any) => {
+          const { resultCode } = res.data;
           if (resultCode === 0) {
             this.$message.success('删除成功');
             this.success();
@@ -198,7 +185,7 @@ export default class Part extends Vue {
           tableList={this.tableList}
           filterList={this.filterList}
           filterGrade={[]}
-          scroll={{x: 900}}
+          scroll={{ x: 900 }}
           url={'/part/list'}
           filterParams={this.filterParams}
           outParams={this.outParams}
