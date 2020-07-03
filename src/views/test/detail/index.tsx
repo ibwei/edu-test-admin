@@ -51,7 +51,6 @@ export default class Test extends Vue {
     this.$nextTick(() => {
       this.LineChart();
     });
-    console.log(this.testInfo);
     if (this.testInfo.status === 0) {
       this.updateStatus(1);
     }
@@ -94,11 +93,13 @@ export default class Test extends Vue {
 
   LineChart() {
     const labelArray: any = [];
-    const dataArray: any = [];
+    let dataArray: any = [];
+
     this.partResult.forEach((item: any) => {
       labelArray.push(item.label);
-      dataArray.push(item.score);
     });
+    dataArray = this.testInfo.scoreArray.split('-');
+    dataArray = dataArray.map((item: any) => Number(item));
     const PieChart: any = document.getElementById('PieChart');
     const config: any = {
       type: 'radar',
