@@ -188,6 +188,8 @@ export default class Test extends Vue {
         const { resultCode, resultMessage } = res.data;
         if (resultCode !== 0) {
           this.$message.error(resultMessage);
+        } else {
+          this.$message.success('处理成功');
         }
       });
   }
