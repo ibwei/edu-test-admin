@@ -1,4 +1,4 @@
-# xc-yxj-admin
+# xuechangcs
 
 ## Project setup
 ```
