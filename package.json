@@ -33,7 +33,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "js-cookie": "^2.2.0",
     "jsonp": "^0.2.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "mock": "^0.1.1",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.24.0",
